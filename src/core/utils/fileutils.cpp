@@ -343,6 +343,9 @@ bool FileUtils::isWithinProjectDirectory( const QString &filePath )
       return false;
   }
 
+  // Debug log for the project directory
+  qDebug() << "[FileUtils::isWithinProjectDirectory] Resolved Project Directory Canonical Path:" << projectDirCanonical;
+
   // Get target file info and its canonical path
   QFileInfo targetInfo( filePath );
   QString targetCanonical;
@@ -384,14 +387,22 @@ bool FileUtils::isWithinProjectDirectory( const QString &filePath )
     targetCanonical = rebuiltDir.absoluteFilePath( targetInfo.fileName() );
   }
 
+  // Debug log for the target file
+  qDebug() << "[FileUtils::isWithinProjectDirectory] Resolved Target File Canonical Path:" << targetCanonical;
+
   // Normalize paths for Windows (case-insensitive check)
 #ifdef Q_OS_WIN
   projectDirCanonical = projectDirCanonical.toLower();
   targetCanonical = targetCanonical.toLower();
+  qDebug() << "[FileUtils::isWithinProjectDirectory] Normalized Project Directory Path (Windows):" << projectDirCanonical;
+  qDebug() << "[FileUtils::isWithinProjectDirectory] Normalized Target File Path (Windows):" << targetCanonical;
 #endif
 
   // Check if the target path is equal to or within the project directory
-  return targetCanonical == projectDirCanonical || targetCanonical.startsWith( projectDirCanonical + QDir::separator() );
+  bool result = targetCanonical == projectDirCanonical || targetCanonical.startsWith( projectDirCanonical + QDir::separator() );
+  qDebug() << "[FileUtils::isWithinProjectDirectory] Is Target Within Project Directory:" << result;
+
+  return result;
 }
 
 QByteArray FileUtils::readFileContent( const QString &filePath )
