@@ -324,7 +324,7 @@ void FileUtils::addImageStamp( const QString &imagePath, const QString &text )
   }
 }
 
-static void logDebugInfo(const QString &message)
+void logDebugInfo(const QString &message)
 {
   QFile logFile( "debug_log.txt" );
   if ( logFile.open(QIODevice::Append | QIODevice::Text) )
