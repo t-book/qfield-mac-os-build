@@ -416,6 +416,9 @@ bool FileUtils::isWithinProjectDirectory( const QString &filePath )
   logDebugInfo( "[FileUtils::isWithinProjectDirectory] Resolved Target File Canonical Path: " + targetCanonical );
 
   // Normalize paths for Windows (case-insensitive check)
+  projectDirCanonical = QDir::fromNativeSeparators( projectDirCanonical );
+  targetCanonical = QDir::fromNativeSeparators( targetCanonical );
+  
 #ifdef Q_OS_WIN
   projectDirCanonical = projectDirCanonical.toLower();
   targetCanonical = targetCanonical.toLower();
