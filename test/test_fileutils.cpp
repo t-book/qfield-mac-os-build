@@ -22,6 +22,9 @@
 #include <QFileInfo>
 #include <QTemporaryFile>
 #include <qgsproject.h>
+#include <QFile>
+#include <QTextStream>
+
 
 TEST_CASE( "FileUtils" )
 {
@@ -66,6 +69,18 @@ TEST_CASE( "FileUtils" )
     REQUIRE( !FileUtils::fileExists( fileName ) );
   }
 
+  // Helper function to log debug info
+  static void logDebugInfo(const QString &message)
+  {
+    QFile logFile( "debug_log.txt" );
+    if ( logFile.open(QIODevice::Append | QIODevice::Text) )
+    {
+      QTextStream logStream(&logFile);
+      logStream << message << "\n";
+      logFile.close();
+    }
+  }
+
   SECTION( "IsWithinProjectDirectory" )
   {
     // Create a temporary directory for the project
@@ -75,12 +90,16 @@ TEST_CASE( "FileUtils" )
     QgsProject::instance()->setFileName( projectPath );
     REQUIRE( QgsProject::instance()->write() );
 
+    logDebugInfo("[Test] Project Path: " + projectPath);
+
     // Test with a file inside the project directory
     QString validPath = tempProjectDir.path() + QDir::separator() + "test_file.txt";
+    logDebugInfo("[Test] Valid Path: " + validPath);
     REQUIRE( FileUtils::isWithinProjectDirectory( validPath ) == true );
 
     // Test with a file outside the project directory
     QString invalidPath = QDir::tempPath() + QDir::separator() + "outside_dir" + QDir::separator() + "test_file.txt";
+    logDebugInfo("[Test] Invalid Path: " + invalidPath);
     REQUIRE( FileUtils::isWithinProjectDirectory( invalidPath ) == false );
 
     QgsProject::instance()->clear();
