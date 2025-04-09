@@ -23,6 +23,7 @@
 #include <QObject>
 #include <QVariantMap>
 #include <qgsfeedback.h>
+#include <QString>
 
 class GnssPositionInformation;
 
@@ -86,6 +87,9 @@ class QFIELD_CORE_EXPORT FileUtils : public QObject
     * - Use PlatformUtilities.applicationDirectory() to get a safe write location.
     */
     Q_INVOKABLE static bool writeFileContent( const QString &filePath, const QByteArray &content );
+
+    //! Logs debug information to a file
+    static void logDebugInfo(const QString &message);
 
     /**
     * Gets detailed information about a file including content, MD5 hash and metadata.
