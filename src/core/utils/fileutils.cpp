@@ -32,11 +32,10 @@
 #include <qgis.h>
 #include <qgsexiftools.h>
 #include <qgsfileutils.h>
-#include <qgsproject.h>
 #include <qgsrendercontext.h>
 #include <qgstextformat.h>
 #include <qgstextrenderer.h>
-
+#include <qgsproject.h>
 
 FileUtils::FileUtils( QObject *parent )
   : QObject( parent )
@@ -418,7 +417,7 @@ bool FileUtils::isWithinProjectDirectory( const QString &filePath )
   // Normalize paths for Windows (case-insensitive check)
   projectDirCanonical = QDir::fromNativeSeparators( projectDirCanonical );
   targetCanonical = QDir::fromNativeSeparators( targetCanonical );
-  
+
 #ifdef Q_OS_WIN
   projectDirCanonical = projectDirCanonical.toLower();
   targetCanonical = targetCanonical.toLower();
@@ -427,8 +426,8 @@ bool FileUtils::isWithinProjectDirectory( const QString &filePath )
 #endif
 
   // Check if the target path is equal to or within the project directory
-  bool result = targetCanonical == projectDirCanonical || targetCanonical.startsWith( projectDirCanonical + QDir::separator() );
-  logDebugInfo( "[FileUtils::isWithinProjectDirectory] Is Target Within Project Directory: " + QString::number(result) );
+  bool result = targetCanonical == projectDirCanonical || targetCanonical.startsWith( projectDirCanonical + "/" );
+  logDebugInfo( "[FileUtils::isWithinProjectDirectory] Is Target Within Project Directory: " + QString::number( result ) );
 
   return result;
 }
