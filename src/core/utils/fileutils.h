@@ -21,9 +21,10 @@
 
 #include <QCryptographicHash>
 #include <QObject>
+#include <QString>
 #include <QVariantMap>
 #include <qgsfeedback.h>
-#include <QString>
+
 
 class GnssPositionInformation;
 
@@ -89,7 +90,7 @@ class QFIELD_CORE_EXPORT FileUtils : public QObject
     Q_INVOKABLE static bool writeFileContent( const QString &filePath, const QByteArray &content );
 
     //! Logs debug information to a file
-    static void logDebugInfo(const QString &message);
+    static void logDebugInfo( const QString &message );
 
     /**
     * Gets detailed information about a file including content, MD5 hash and metadata.
