@@ -324,15 +324,15 @@ void FileUtils::addImageStamp( const QString &imagePath, const QString &text )
   }
 }
 
-void logDebugInfo(const QString &message)
+void FileUtils::logDebugInfo( const QString &message )
 {
-  QFile logFile( "debug_log.txt" );
-  if ( logFile.open(QIODevice::Append | QIODevice::Text) )
-  {
-    QTextStream logStream( &logFile );
-    logStream << message << "\n";
-    logFile.close();
-  }
+    QFile logFile("debug_log.txt");
+    if ( logFile.open(QIODevice::Append | QIODevice::Text) )
+    {
+        QTextStream logStream( &logFile );
+        logStream << message << "\n";
+        logFile.close();
+    }
 }
 
 bool FileUtils::isWithinProjectDirectory( const QString &filePath )
