@@ -175,7 +175,7 @@ jobs:
           echo "$SIGNINGKEY" | base64 --decode > ./keystore.p12
 
       - name: Cache .gradle
-        uses: burrunan/gradle-cache-action@v2
+        uses: burrunan/gradle-cache-action@v3
 
       - name: Package
         env:
