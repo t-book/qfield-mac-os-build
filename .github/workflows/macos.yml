@@ -34,7 +34,7 @@ jobs:
 
     steps:
       - name: 🐣 Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
         with:
           submodules: recursive
 
@@ -175,14 +175,14 @@ jobs:
     needs: build
     steps:
       - name: 🐣 Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
 
       - name: 🔨 Prepare build env
         run: |
           brew install create-dmg
 
       - name: 📤 Download app
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v5
         with:
           pattern: qfield-app-*
           path: |
