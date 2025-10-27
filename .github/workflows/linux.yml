@@ -20,7 +20,7 @@ jobs:
 
     steps:
       - name: 🐣 Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
         with:
           submodules: recursive
 
@@ -85,7 +85,7 @@ jobs:
                 # -D SENTRY_ENV="${APP_ENV}" \
 
       - name: 📑 Upload dep build logs
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v5
         if: failure()
         with:
           name: build-logs-x64-linux
@@ -93,7 +93,7 @@ jobs:
             build/**/*.log
 
       - name: Initialize CodeQL
-        uses: github/codeql-action/init@v3
+        uses: github/codeql-action/init@v4
         with:
           languages: 'c-cpp'
 
@@ -101,7 +101,7 @@ jobs:
         run: |
           xvfb-run cmake --build build --config ${{ env.BUILD_TYPE }}
 
-      - uses: ZedThree/clang-tidy-review@v0.20.1
+      - uses: ZedThree/clang-tidy-review@v0.21.0
         id: review
         if: github.event_name == 'pull_request'
         with:
@@ -118,7 +118,7 @@ jobs:
 
       - name: 📦 Upload package
         if: ${{ env.ARTIFACT_NAME != null }}
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v5
         with:
           name: "QField-dev-x64-linux-${{ env.BUILD_TYPE }}"
           path: ${{ env.ARTIFACT_PATHNAME }}
@@ -152,7 +152,7 @@ jobs:
           docker compose -f "${{ github.workspace }}/test/docker-compose.yaml" down
 
       - name: 📑 Upload package logs
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v5
         if: failure()
         with:
           name: package-logs-x64-linux
@@ -160,7 +160,7 @@ jobs:
 
       - name: 📊 Upload test report
         if: always()
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v5
         with:
           name: "test-report-x64-linux-${{ env.BUILD_TYPE }}"
           path: "build/report"
@@ -184,6 +184,6 @@ jobs:
       #     bundle exec fastlane run sentry_debug_files_upload path:build
 
       - name: Perform CodeQL Analysis
-        uses: github/codeql-action/analyze@v3
+        uses: github/codeql-action/analyze@v4
         with:
           category: "/language:c-cpp"

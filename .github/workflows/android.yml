@@ -59,7 +59,7 @@ jobs:
 
     steps:
       - name: 🐣 Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
         with:
           submodules: recursive
 
@@ -157,7 +157,7 @@ jobs:
                 -D SENTRY_IMPORT_PREFIX=/tmp/sentry-android-ndk/jni
 
       - name: 📑 Upload Dep Build Logs
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v5
         if: failure()
         with:
           name: build-logs-${{ matrix.triplet }}
@@ -175,7 +175,7 @@ jobs:
           echo "$SIGNINGKEY" | base64 --decode > ./keystore.p12
 
       - name: Cache .gradle
-        uses: burrunan/gradle-cache-action@v2
+        uses: burrunan/gradle-cache-action@v3
 
       - name: Package
         env:
@@ -186,7 +186,7 @@ jobs:
           cmake --build  "${{ env.CMAKE_BUILD_DIR }}" --target bundle --config Release
 
       - name: 📦 Upload artifacts
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v5
         with:
           name: ${{ env.APP_PACKAGE_NAME }}-android-${{ matrix.triplet }}
           path: |
@@ -226,7 +226,7 @@ jobs:
     if: ${{ ( github.event_name == 'release' || ( github.event_name == 'push' && github.ref == 'refs/heads/master' ) ) }}
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
         if: ${{ env.SENTRY_AUTH_TOKEN != '' }}
 
       - name: Vars
@@ -271,7 +271,7 @@ jobs:
     if: ${{ github.event_name == 'pull_request' }}
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
         if: ${{ env.SENTRY_AUTH_TOKEN != '' }}
 
       - name: Vars
@@ -306,7 +306,7 @@ jobs:
     if: ${{ github.event_name == 'push' }}
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
         if: ${{ env.SENTRY_AUTH_TOKEN != '' }}
 
       - name: Vars
@@ -316,7 +316,7 @@ jobs:
           ./scripts/ci/env_gh.sh
 
       - name: Comment commit
-        uses: peter-evans/commit-comment@v3
+        uses: peter-evans/commit-comment@v4
         if: ${{ env.SENTRY_AUTH_TOKEN != '' }}
         with:
           token: ${{ secrets.FAIRY_TOKEN }}
