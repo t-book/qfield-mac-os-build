@@ -24,7 +24,7 @@ jobs:
 
     steps:
       - name: 🐣 Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
         with:
           submodules: recursive
 
@@ -97,7 +97,7 @@ jobs:
 #                -D SENTRY_ENV="${APP_ENV}" \
 
       - name: 📑 Upload dep build logs
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v5
         if: failure()
         with:
           name: build-logs-x64-windows-static
@@ -135,7 +135,7 @@ jobs:
           echo "artifact_name=${ARTIFACT_NAME}" >> "$GITHUB_OUTPUT"
 
       - name: 📑 Upload logs
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v5
         if: failure()
         with:
           name: package-logs-x64-windows-static
@@ -145,7 +145,7 @@ jobs:
 
       - name: 🎭 Sign
         if: ( github.event_name == 'release'  && startsWith(github.ref, 'refs/tags/v') ) || github.event_name == 'workflow_dispatch' && env.ARTIFACT_NAME != null
-        uses: azure/trusted-signing-action@v0.5.1
+        uses: azure/trusted-signing-action@v0.5.10
         with:
           azure-tenant-id: ${{ secrets.AZURE_TENANT_ID }}
           azure-client-id: ${{ secrets.AZURE_CLIENT_ID }}
@@ -161,14 +161,14 @@ jobs:
 
       - name: 📦 Upload package
         if: ${{ env.ARTIFACT_NAME != null }}
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v5
         with:
           name: "QField-dev-x64-windows-static-${{ env.BUILD_TYPE }}"
           path: ${{ env.ARTIFACT_PATHNAME }}
 
       - name: 📊 Upload test report
         if: always()
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v5
         with:
           name: "test-report-x64-windows-static-${{ env.BUILD_TYPE }}"
           path: "${{ env.CMAKE_BUILD_DIR }}/report"
